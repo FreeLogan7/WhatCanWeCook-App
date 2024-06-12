@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp">
+
+    <EditText
+        android:id="@+id/edit_text_dialogue_recipe_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="@string/recipe_item_name"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:textSize="14sp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edit_text_dialogue_recipe_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="@string/dialog_add_recipe_description_hint"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_dialogue_recipe_name"
+        tools:visibility="visible" />
+
+    <ImageButton
+        android:id="@+id/button_show_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@null"
+        android:contentDescription="@string/dialog_add_recipe_description_button"
+        android:src="@drawable/ic_details"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_dialogue_recipe_description" />
+
+    <ImageButton
+        android:id="@+id/button_star_favourite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:background="@null"
+        android:contentDescription="@string/dialog_add_task_star_button"
+        android:src="@drawable/ic_star"
+        app:layout_constraintStart_toEndOf="@id/button_show_description"
+        app:layout_constraintTop_toTopOf="@id/button_show_description" />
+
+    <ImageButton
+        android:id="@+id/button_star_favourite_filled"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:background="@null"
+        android:clickable="false"
+        android:visibility="gone"
+        android:contentDescription="@string/dialog_add_task_star_button"
+        android:src="@drawable/icon_star_filled"
+        app:layout_constraintStart_toEndOf="@id/button_show_description"
+        app:layout_constraintTop_toTopOf="@id/button_show_description" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_save"
+        style="@style/Widget.Material3.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/material_button_save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edit_text_dialogue_recipe_description" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

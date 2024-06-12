@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">What Can We Eat</string>
+    <string name="food">Food</string>
+    <string name="title_activity_main_activitysdf">MainActivitysdf</string>
+    <string name="adding_groceries_string">a floating action button for adding groceries</string>
+    <string name="material_button_save">Save</string>
+    <string name="grocery_item_name">Name of Grocery Item</string>
+    <string name="not_in_fridge">Not in Fridge</string>
+    <string name="fab_adding_recipes">Floating Action Bar For Adding Recipes</string>
+    <string name="recipe_item_name">Recipe Name</string>
+    <string name="dialog_add_recipe_description_hint">Add Description</string>
+    <string name="dialog_add_recipe_description_button">Button for accessing input details</string>
+    <string name="dialog_add_task_star_button">This is for setting a favourite of the recipes</string>
+    <string name="add_instruction">Add Instruction</string>
+    <string name="instructions_step_number">Instructions Step Number</string>
+    <string name="add_ingredient">Add Ingredient</string>
+</resources>

@@ -1,0 +1,23 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.WhatCanWeEat" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+
+    </style>
+
+    <style name="ToolbarTitleTextAppearance" parent="TextAppearance.Material3.ActionBar.Title">
+        <!-- Define the text size you want -->
+        <item name="android:textSize">34sp</item>
+        <!-- Optionally, define other text attributes like color, style, etc. -->
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+
+
+
+
+
+    <style name="Theme.WhatCanWeEat" parent="Base.Theme.WhatCanWeEat" />
+</resources>
