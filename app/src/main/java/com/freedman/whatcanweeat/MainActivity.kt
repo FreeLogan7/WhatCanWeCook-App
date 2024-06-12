@@ -24,7 +24,6 @@ class MainActivity : AppCompatActivity() , RecipesFragment.NewActivityListener {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // Temporary line
 
         binding.pager.adapter = PagerAdapter(this)
         TabLayoutMediator(binding.tabLayout, binding.pager) { tab, i ->
