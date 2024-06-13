@@ -5,6 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.freedman.whatcanweeat.STARTER_RECIPES
 import com.freedman.whatcanweeat.tableDetails.Instructions
 import com.freedman.whatcanweeat.data.InstructionsDao
@@ -44,7 +47,9 @@ class RecipesFragment(
         super.onViewCreated(view, savedInstanceState)
         createRecipeList()
         binding.fab.setOnClickListener { showAddTaskDialogue() }
+        binding.recyclerView.layoutManager = GridLayoutManager(requireContext(),2, LinearLayoutManager.VERTICAL,false)
         binding.recyclerView.adapter = adapter
+
     }
 
     override fun onResume() {

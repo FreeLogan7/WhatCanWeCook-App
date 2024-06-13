@@ -24,6 +24,15 @@ interface RecipeDao {
 
     @Delete
     fun deleteRecipe(recipe: Recipe)
+
+    @Query("""
+        SELECT recipe_ingredients.recipe_name
+from recipe_ingredients
+left join groceries on recipe_ingredients.recipe_name = groceries.grocery_name
+group by recipe_name
+having SUM(CASE WHEN groceries.grocery_name is null THEN 1 ELSE 0 END) = 0;
+    """)
+    fun findAllUsableRecipes(): List<String>
 }
 
 @Dao

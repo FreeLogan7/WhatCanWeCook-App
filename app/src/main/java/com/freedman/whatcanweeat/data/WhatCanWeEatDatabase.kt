@@ -2,6 +2,7 @@ package com.freedman.whatcanweeat.data
 
 import android.content.Context
 import androidx.room.Database
+import androidx.room.Query
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
@@ -19,6 +20,7 @@ abstract class WhatCanWeEatDatabase : RoomDatabase() {
     abstract fun getGroceryDao(): GroceryDao
     abstract fun getInstructionsDao(): InstructionsDao
     abstract fun getIngredientsDao(): IngredientsDao
+
 
     companion object {
         @Volatile
