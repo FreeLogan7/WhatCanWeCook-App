@@ -5,14 +5,15 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.freedman.whatcanweeat.tableDetails.Groceries
 import com.freedman.whatcanweeat.databinding.ItemGroceriesBinding
+import com.freedman.whatcanweeat.tableDetails.Groceries
 
 
 class GroceriesAdapter(private val listener: GroceryUpdateListener) :
     RecyclerView.Adapter<GroceriesAdapter.ViewHolder>() {
 
     private var groceries: List<Groceries> = listOf()
+    private var color: Int = 0
 
     override fun getItemCount() = groceries.size
 
@@ -28,9 +29,10 @@ class GroceriesAdapter(private val listener: GroceryUpdateListener) :
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setGroceries(groceries: List<Groceries>) {
+    fun setGroceries(groceries: List<Groceries>, color: Int) {
         val sortedGroceries = groceries.sortedBy { it.groceryName.uppercase() }.sortedByDescending { it.inFridge }
         this.groceries = sortedGroceries
+        this.color = color
         notifyDataSetChanged()
     }
 
@@ -38,6 +40,7 @@ class GroceriesAdapter(private val listener: GroceryUpdateListener) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(groceries: Groceries) {
+            binding.cardViewItemGroceries.setCardBackgroundColor(color)
             binding.textViewTitleGroceries.text = groceries.groceryName
             binding.checkboxGroceries.isChecked = groceries.inFridge
             binding.checkboxGroceries.setOnClickListener {

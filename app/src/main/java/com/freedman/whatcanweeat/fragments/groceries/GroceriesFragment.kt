@@ -15,12 +15,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.freedman.whatcanweeat.R
-import com.freedman.whatcanweeat.tableDetails.Groceries
 import com.freedman.whatcanweeat.data.GroceryDao
 import com.freedman.whatcanweeat.data.WhatCanWeEatDatabase
 import com.freedman.whatcanweeat.databinding.ActivityMainBinding
-import com.freedman.whatcanweeat.databinding.FragmentGroceriesBinding
 import com.freedman.whatcanweeat.databinding.GroceriesAddItemBinding
+import com.freedman.whatcanweeat.databinding.RecyclerViewGroceriesBinding
+import com.freedman.whatcanweeat.fragments.recipes.RecipesFragment.Companion.FADED_COLOR
+import com.freedman.whatcanweeat.fragments.recipes.RecipesFragment.Companion.GREEN_COLOR
+import com.freedman.whatcanweeat.tableDetails.Groceries
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlin.concurrent.thread
 
@@ -28,7 +30,7 @@ import kotlin.concurrent.thread
 class GroceriesFragment(private val titleChanger: ActivityMainBinding) : Fragment(),
     GroceriesAdapter.GroceryUpdateListener {
 
-    private lateinit var binding: FragmentGroceriesBinding
+    private lateinit var binding: RecyclerViewGroceriesBinding
     private val groceryDao: GroceryDao by lazy {
         WhatCanWeEatDatabase.getDatabase(requireContext()).getGroceryDao()
     }
@@ -41,7 +43,7 @@ class GroceriesFragment(private val titleChanger: ActivityMainBinding) : Fragmen
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentGroceriesBinding.inflate(layoutInflater)
+        binding = RecyclerViewGroceriesBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -55,7 +57,6 @@ class GroceriesFragment(private val titleChanger: ActivityMainBinding) : Fragmen
 
         setupSwipeToDelete(binding.recyclerViewGroceriesInFridge, adapterInFridge)
         setupSwipeToDelete(binding.recyclerViewGroceriesNotInFridge, adapterNotInFridge)
-
     }
 
     private fun setupSwipeToDelete(recyclerView: RecyclerView, adapter: GroceriesAdapter) {
@@ -180,7 +181,7 @@ class GroceriesFragment(private val titleChanger: ActivityMainBinding) : Fragmen
         thread {
             val groceriesInFridge = groceryDao.getInFridgeGroceries()
             requireActivity().runOnUiThread {
-                adapterInFridge.setGroceries(groceriesInFridge)
+                adapterInFridge.setGroceries(groceriesInFridge, GREEN_COLOR)
             }
         }
     }
@@ -195,7 +196,7 @@ class GroceriesFragment(private val titleChanger: ActivityMainBinding) : Fragmen
                     } else {
                         View.VISIBLE
                     }
-                adapterNotInFridge.setGroceries(groceriesNotInFridge)
+                adapterNotInFridge.setGroceries(groceriesNotInFridge, FADED_COLOR)
             }
         }
     }

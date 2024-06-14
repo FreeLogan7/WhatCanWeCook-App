@@ -10,16 +10,12 @@ import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-
-import com.freedman.whatcanweeat.tableDetails.Instructions
-import com.freedman.whatcanweeat.data.InstructionsDao
-import com.freedman.whatcanweeat.tableDetails.Recipe
 import com.freedman.whatcanweeat.data.RecipeDao
 import com.freedman.whatcanweeat.data.WhatCanWeEatDatabase
 import com.freedman.whatcanweeat.databinding.ActivityMainBinding
 import com.freedman.whatcanweeat.databinding.RecipesAddItemBinding
 import com.freedman.whatcanweeat.databinding.RecyclerViewBinding
+import com.freedman.whatcanweeat.tableDetails.Recipe
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlin.concurrent.thread
 
@@ -140,9 +136,9 @@ class RecipesFragment(
     }
 
     companion object{
-        const val GREEN_COLOR = 0xFF71DF59.toInt()
+        const val GREEN_COLOR = 0xFFACF89B.toInt()
         const val WHITE_COLOR = 0xFFFFFFFF.toInt()
-        const val FADED_COLOR = 0x997E7E7E.toInt()
+        const val FADED_COLOR = 0x99B6B6B6.toInt()
     }
 
 

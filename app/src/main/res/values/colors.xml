@@ -2,7 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="grey">#7E7E7E</color>
-    <color name="faded">#997E7E7E</color>
-    <color name="green">#71DF59</color>
+    <color name="grey">#BDBDBD</color>
+    <color name="faded">#99B6B6B6</color>
+    <color name="green">#ACF89B</color>
+
 </resources>

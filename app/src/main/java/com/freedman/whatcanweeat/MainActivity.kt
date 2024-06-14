@@ -9,16 +9,12 @@ import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
 import com.freedman.whatcanweeat.Activities.RecipeActivity
-import com.freedman.whatcanweeat.tableDetails.Recipe
 import com.freedman.whatcanweeat.databinding.ActivityMainBinding
 import com.freedman.whatcanweeat.fragments.groceries.GroceriesFragment
 import com.freedman.whatcanweeat.fragments.recipes.RecipesFragment
-import com.google.android.material.appbar.MaterialToolbar
+import com.freedman.whatcanweeat.tableDetails.Recipe
 import com.google.android.material.tabs.TabLayoutMediator
-
-//const val STARTER_RECIPES: Int = 4
 
 class MainActivity : AppCompatActivity() , RecipesFragment.NewActivityListener { //, RecipesFragment.ChangeTitle
 

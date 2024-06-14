@@ -5,11 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-
 import com.freedman.whatcanweeat.data.InstructionsDao
 import com.freedman.whatcanweeat.data.WhatCanWeEatDatabase
 import com.freedman.whatcanweeat.databinding.InstructionsAddItemBinding
-import com.freedman.whatcanweeat.databinding.RecipesAddItemBinding
 import com.freedman.whatcanweeat.databinding.RecyclerViewBinding
 import com.freedman.whatcanweeat.tableDetails.Instructions
 import com.freedman.whatcanweeat.tableDetails.Recipe
