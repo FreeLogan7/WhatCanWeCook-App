@@ -6,15 +6,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.freedman.whatcanweeat.ErrorCheck.OnAddErrorCheck
 import com.freedman.whatcanweeat.data.RecipeDao
 import com.freedman.whatcanweeat.data.WhatCanWeEatDatabase
 import com.freedman.whatcanweeat.databinding.ActivityMainBinding
 import com.freedman.whatcanweeat.databinding.RecipesAddItemBinding
 import com.freedman.whatcanweeat.databinding.RecyclerViewBinding
+import com.freedman.whatcanweeat.tableDetails.Groceries
 import com.freedman.whatcanweeat.tableDetails.Recipe
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlin.concurrent.thread
@@ -22,7 +25,7 @@ import kotlin.concurrent.thread
 class RecipesFragment(
     private val titleChanger: ActivityMainBinding,
     private val listener: NewActivityListener
-) : Fragment(), RecipeAdapter.SendMeToRecipeListener {
+) : Fragment(), RecipeAdapter.SendMeToRecipeListener, OnAddErrorCheck {
 
     private lateinit var binding: RecyclerViewBinding
     private var favourite = false
@@ -31,6 +34,7 @@ class RecipesFragment(
     }
 
     private var adapter = RecipeAdapter( this)
+    private var allRecipes : List<Recipe> = listOf()
 
 
 
@@ -97,12 +101,19 @@ class RecipesFragment(
         }
 
         bindingRecipeDialogue.buttonSave.setOnClickListener {
-            val recipeInputName = bindingRecipeDialogue.editTextDialogueRecipeName.text.toString()
+            val recipeInputNameRAW = bindingRecipeDialogue.editTextDialogueRecipeName.text.toString()
+            val recipeInputName = updateCapitalization(recipeInputNameRAW)
             val recipeInputDescription = bindingRecipeDialogue.editTextDialogueRecipeDescription.text.toString()
 
             val recipe = Recipe(recipeName = recipeInputName, description = recipeInputDescription, favourite = favourite)
 
-            thread { recipeDao.createRecipe(recipe) }
+            onAddRecipeName(recipeDao = recipeDao,
+                activity = requireActivity(),
+                allRecipes = allRecipes,
+                recipe = recipe,
+                recipeInputName = recipeInputName,
+                context = requireContext() )
+
             dialog.dismiss()
             createRecipeList()
         }
@@ -116,10 +127,10 @@ class RecipesFragment(
 
     fun createRecipeListInFridge(){
         thread {
-//            val recipee = recipeDao.getAllRecipes()
             val recipeNamesInFridge = recipeDao.getInFridgeRecipeNames()
             val recipesInFridge = recipeDao.getInFridgeRecipes(recipeNamesInFridge)
             requireActivity().runOnUiThread {
+                this.allRecipes = recipesInFridge
                 adapter.setRecipes(recipesInFridge, GREEN_COLOR)
             }
         }

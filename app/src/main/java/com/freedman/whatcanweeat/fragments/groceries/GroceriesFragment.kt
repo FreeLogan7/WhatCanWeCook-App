@@ -10,12 +10,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.compose.material3.Snackbar
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.freedman.whatcanweeat.ErrorCheck.OnAddErrorCheck
 import com.freedman.whatcanweeat.R
 import com.freedman.whatcanweeat.data.GroceryDao
 import com.freedman.whatcanweeat.data.WhatCanWeEatDatabase
@@ -30,7 +30,7 @@ import kotlin.concurrent.thread
 
 
 class GroceriesFragment(private val titleChanger: ActivityMainBinding) : Fragment(),
-    GroceriesAdapter.GroceryUpdateListener {
+    GroceriesAdapter.GroceryUpdateListener, OnAddErrorCheck {
 
     private lateinit var binding: RecyclerViewGroceriesBinding
     private val groceryDao: GroceryDao by lazy {
@@ -39,7 +39,10 @@ class GroceriesFragment(private val titleChanger: ActivityMainBinding) : Fragmen
     private var adapterInFridge = GroceriesAdapter(this)
     private var adapterNotInFridge = GroceriesAdapter(this)
 
-    private var currentGroceries: List<Groceries> = listOf()
+    private var inFridgeGroceries : List<Groceries> = listOf()
+    private var notInFridgeGroceries : List<Groceries> = listOf()
+
+    private var allGroceries : List<Groceries> = listOf()
 
 
     override fun onCreateView(
@@ -160,23 +163,22 @@ class GroceriesFragment(private val titleChanger: ActivityMainBinding) : Fragmen
 
         bindingDialogue.buttonSave.setOnClickListener {
             val groceryInputNameRAW = bindingDialogue.editTextGroceryItem.text.toString()
-            val groceryInputName = groceryInputNameRAW.lowercase().replaceFirstChar { it.uppercase() }
+            val groceryInputName = updateCapitalization(groceryInputNameRAW)
 
             //IMAGE: Here is where it would be added
             //add it to the grocery line -> if statement and changes made to adapter
             val grocery = Groceries(groceryName = groceryInputName, inFridge = true)
-            thread {
-                val exists = currentGroceries.any() { it.groceryName == groceryInputName }
-                if (!exists) {
-                    groceryDao.createGrocery(grocery)
-                }
-                else {
-                    requireActivity().runOnUiThread {
-                        Toast.makeText(context, "Grocery item already exists", Toast.LENGTH_SHORT).show()
-                    }
-                }
 
-            }
+            allGroceries = inFridgeGroceries +notInFridgeGroceries
+            onAddGroceryName(
+                groceryDao = groceryDao,
+                activity = requireActivity(),
+                allGroceries = allGroceries,
+                grocery = grocery,
+                groceryInputName = groceryInputName,
+                context = requireContext()
+            )
+
             dialog.dismiss()
             getInFridgeGroceries()
         }
@@ -197,7 +199,7 @@ class GroceriesFragment(private val titleChanger: ActivityMainBinding) : Fragmen
         thread {
             val groceriesInFridge = groceryDao.getInFridgeGroceries()
             requireActivity().runOnUiThread {
-                this.currentGroceries = groceriesInFridge
+                this.inFridgeGroceries = groceriesInFridge
                 adapterInFridge.setGroceries(groceriesInFridge, GREEN_COLOR)
 
             }
@@ -208,6 +210,7 @@ class GroceriesFragment(private val titleChanger: ActivityMainBinding) : Fragmen
         thread {
             val groceriesNotInFridge = groceryDao.getNotInFridgeGroceries()
             requireActivity().runOnUiThread {
+                this.notInFridgeGroceries = groceriesNotInFridge
                 binding.inFridgeSectionLabel.visibility =
                     if (groceriesNotInFridge.isEmpty()) {
                         View.GONE
