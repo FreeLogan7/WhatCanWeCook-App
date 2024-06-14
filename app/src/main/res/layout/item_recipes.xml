@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="125dp"
         android:layout_margin="4dp"
-        app:cardBackgroundColor="#FFFFFF"
+        app:cardBackgroundColor="@color/grey"
         app:cardElevation="24dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">

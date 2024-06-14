@@ -28,12 +28,19 @@ interface RecipeDao {
     @Query("""
         SELECT recipe_ingredients.recipe_name
 from recipe_ingredients
-left join groceries on recipe_ingredients.recipe_name = groceries.grocery_name
+left join groceries on recipe_ingredients.ingredient = groceries.grocery_name
 group by recipe_name
-having SUM(CASE WHEN groceries.grocery_name is null THEN 1 ELSE 0 END) = 0;
+having SUM(CASE WHEN groceries.grocery_name is null OR groceries.inFridge is 0 THEN 1  ELSE 0 END) = 0;
+
     """)
-    fun findAllUsableRecipes(): List<String>
+    fun getInFridgeRecipeNames(): List<String>
+
+
+    @Query("SELECT * FROM recipe WHERE recipe.recipe_name IN (:recipeNames)")
+    fun getInFridgeRecipes(recipeNames: List<String>): List<Recipe>
 }
+
+
 
 @Dao
 interface GroceryDao {

@@ -1,14 +1,17 @@
 package com.freedman.whatcanweeat.fragments.recipes
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.freedman.whatcanweeat.STARTER_RECIPES
+
 import com.freedman.whatcanweeat.tableDetails.Instructions
 import com.freedman.whatcanweeat.data.InstructionsDao
 import com.freedman.whatcanweeat.tableDetails.Recipe
@@ -31,7 +34,10 @@ class RecipesFragment(
         WhatCanWeEatDatabase.getDatabase(requireContext()).getRecipeDao()
     }
 
-    private var adapter = RecipeAdapter(this)
+    private var adapter = RecipeAdapter( this)
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,11 +56,25 @@ class RecipesFragment(
         binding.recyclerView.layoutManager = GridLayoutManager(requireContext(),2, LinearLayoutManager.VERTICAL,false)
         binding.recyclerView.adapter = adapter
 
+        //CREATE 1 XML, 3 RECYCLER VIEW
+        //CREATE 3 createRecipe FUNCTIONS WITH DIFFERENT COLORS
+        //CHANGE ADAPTER TO INCLUDE COLOR
+
     }
 
     override fun onResume() {
         super.onResume()
         titleChanger.toolbar.title = "Recipes"
+        updater()
+    }
+
+    private fun updater() {
+        val updatePreferences: SharedPreferences = requireContext().getSharedPreferences("grocery-update", Context.MODE_PRIVATE)
+        val updater = updatePreferences.getString("grocery", null)!!.toInt()
+        if (updater == 1){
+            createRecipeList()
+            updatePreferences.edit{putString("grocery", 0.toString())}
+        }
     }
 
     private fun showAddTaskDialogue() {
@@ -93,21 +113,23 @@ class RecipesFragment(
         dialog.show()
     }
 
+    fun createRecipeList(){
+        createRecipeListInFridge()
+        //createRecipeListNotInFridge()
+    }
 
-
-    fun createRecipeList() {
+    fun createRecipeListInFridge(){
         thread {
-            val recipes = recipeDao.getAllRecipes()
+//            val recipee = recipeDao.getAllRecipes()
+            val recipeNamesInFridge = recipeDao.getInFridgeRecipeNames()
+            val recipesInFridge = recipeDao.getInFridgeRecipes(recipeNamesInFridge)
             requireActivity().runOnUiThread {
-                 adapter.setRecipes(recipes)
+                adapter.setRecipes(recipesInFridge, GREEN_COLOR)
             }
         }
     }
 
-    fun canWeMakeIt(){
-        //Use database
-        //Find
-    }
+
 
     override fun recipeSendOff(recipe: Recipe) {
         listener.newActivity(recipe)
@@ -117,11 +139,56 @@ class RecipesFragment(
         fun newActivity(recipe: Recipe)
     }
 
+    companion object{
+        const val GREEN_COLOR = 0xFF71DF59.toInt()
+        const val WHITE_COLOR = 0xFFFFFFFF.toInt()
+        const val FADED_COLOR = 0x997E7E7E.toInt()
+    }
+
 
 }
 
 
 
+
+/*fun createRecipeListNotInFridge(){
+    thread {
+        val recipesInFridge = recipeDao.getNotInFridgeRecipes()
+        requireActivity().runOnUiThread {
+            adapter.setRecipes(recipesInFridge, FADED_COLOR)
+        }
+    }
+}*/
+
+
+
+//    fun createRecipeList() { //: List<Recipe> //MAKE RECIPES A VALUE THAT CAN BE SENT ELSEWHERE
+//        thread {
+//            val recipes = recipeDao.getAllRecipes()
+//            requireActivity().runOnUiThread {
+//            //return recipes
+//            adapter.setRecipes(recipes)
+//            }
+//        }
+//    }
+
+//    fun createRecipeList(callback: (List<Recipe>) -> Unit) {
+//        thread {
+//            val recipes = recipeDao.getAllRecipes()
+//            requireActivity().runOnUiThread {
+//                callback(recipes)
+//            }
+//        }
+//    }
+//    createRecipeList { recipes ->
+//        // This runs on the UI thread
+//        adapter.setRecipes(recipes)
+//    }
+
+//fun canWeMakeIt(){
+//    //Use database
+//    //Find
+//}
 
 
 //    private fun createStarterRecipes() {

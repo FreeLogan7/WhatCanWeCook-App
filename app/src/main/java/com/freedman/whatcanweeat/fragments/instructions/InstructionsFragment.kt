@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.freedman.whatcanweeat.STARTER_RECIPES
+
 import com.freedman.whatcanweeat.data.InstructionsDao
 import com.freedman.whatcanweeat.data.WhatCanWeEatDatabase
 import com.freedman.whatcanweeat.databinding.InstructionsAddItemBinding

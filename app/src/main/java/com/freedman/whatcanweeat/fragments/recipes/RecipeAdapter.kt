@@ -2,16 +2,24 @@ package com.freedman.whatcanweeat.fragments.recipes
 
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.toColor
 import androidx.recyclerview.widget.RecyclerView
+import com.freedman.whatcanweeat.R
 import com.freedman.whatcanweeat.tableDetails.Recipe
 import com.freedman.whatcanweeat.databinding.ItemRecipesBinding
 
-class RecipeAdapter( private val listener: SendMeToRecipeListener) :
+class RecipeAdapter(  private val listener: SendMeToRecipeListener) :
     RecyclerView.Adapter<RecipeAdapter.ViewHolder>() {
 
     private var recipes: List<Recipe> = listOf()
+    private var color: Int = 0
+
+
 
     override fun getItemCount() = recipes.size
 
@@ -22,8 +30,9 @@ class RecipeAdapter( private val listener: SendMeToRecipeListener) :
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setRecipes (recipe: List<Recipe>){
+    fun setRecipes (recipe: List<Recipe>, color: Int){
         this.recipes = recipe
+        this.color = color
         notifyDataSetChanged()
     }
 
@@ -34,10 +43,12 @@ class RecipeAdapter( private val listener: SendMeToRecipeListener) :
     inner class ViewHolder(private val binding: ItemRecipesBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-            fun bind(recipe: Recipe){ //here you can also send position, and it would keep track
-                binding.textViewTitle.text = recipe.recipeName
-                binding.textViewDescription.text = recipe.description
-                binding.cardViewItem.setOnClickListener(){listener.recipeSendOff(recipe)}
+        fun bind(recipe: Recipe) { //here you can also send position, and it would keep track
+            binding.cardViewItem.setCardBackgroundColor(color)
+            binding.textViewTitle.text = recipe.recipeName
+            binding.textViewDescription.text = recipe.description
+
+            binding.cardViewItem.setOnClickListener(){listener.recipeSendOff(recipe)}
                 //add image or add if it is a favourite here by adding a isChecked
 //                binding.toggleStar.setOnClickListener {
 //                    val updatedStarTask = task.copy(isStarred = binding.toggleStar.isChecked)
@@ -52,5 +63,7 @@ class RecipeAdapter( private val listener: SendMeToRecipeListener) :
     }
 
 }
+
+
 
 

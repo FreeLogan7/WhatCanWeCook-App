@@ -1,5 +1,7 @@
 package com.freedman.whatcanweeat.fragments.groceries
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -8,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -46,6 +49,7 @@ class GroceriesFragment(private val titleChanger: ActivityMainBinding) : Fragmen
         super.onViewCreated(view, savedInstanceState)
         binding.recyclerViewGroceriesInFridge.adapter = adapterInFridge
         binding.recyclerViewGroceriesNotInFridge.adapter = adapterNotInFridge
+
         getAllGroceries()
         binding.fab.setOnClickListener { showAddTaskDialogue() }
 
@@ -196,14 +200,25 @@ class GroceriesFragment(private val titleChanger: ActivityMainBinding) : Fragmen
         }
     }
 
+    fun updateGroceriesAfterPageSwap()
+    {
+        val updatePreferences: SharedPreferences = requireContext().getSharedPreferences("grocery-update", Context.MODE_PRIVATE)
+        updatePreferences.edit{
+            putString("grocery", 1.toString())
+        }
+    }
+
     override fun onGroceryUpdate(grocery: Groceries) {
+        updateGroceriesAfterPageSwap()
         thread {
             groceryDao.updateGrocery(grocery)
             getAllGroceries()
+
         }
     }
 
     override fun onGroceryDelete(grocery: Groceries) {
+        updateGroceriesAfterPageSwap()
         thread {
             groceryDao.deleteGrocery(grocery)
             getAllGroceries()

@@ -1,11 +1,15 @@
 package com.freedman.whatcanweeat
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
 import com.freedman.whatcanweeat.Activities.RecipeActivity
 import com.freedman.whatcanweeat.tableDetails.Recipe
 import com.freedman.whatcanweeat.databinding.ActivityMainBinding
@@ -14,16 +18,22 @@ import com.freedman.whatcanweeat.fragments.recipes.RecipesFragment
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.tabs.TabLayoutMediator
 
-const val STARTER_RECIPES: Int = 4
+//const val STARTER_RECIPES: Int = 4
 
 class MainActivity : AppCompatActivity() , RecipesFragment.NewActivityListener { //, RecipesFragment.ChangeTitle
 
     private lateinit var binding: ActivityMainBinding
 
+    private val updatePreferences: SharedPreferences  by lazy {  this.getSharedPreferences("grocery-update", Context.MODE_PRIVATE)}
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        updatePreferences.edit { putString("grocery", 0.toString()) }
 
         binding.pager.adapter = PagerAdapter(this)
         TabLayoutMediator(binding.tabLayout, binding.pager) { tab, i ->
@@ -32,6 +42,7 @@ class MainActivity : AppCompatActivity() , RecipesFragment.NewActivityListener {
                 1 -> tab.text = "Groceries"
             }
         }.attach()
+
     }
 
 
@@ -45,6 +56,7 @@ class MainActivity : AppCompatActivity() , RecipesFragment.NewActivityListener {
             }
         }
     }
+
 
     override fun newActivity(recipe: Recipe) {
        val intent = Intent(this, RecipeActivity::class.java)
