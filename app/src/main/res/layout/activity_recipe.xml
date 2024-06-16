@@ -19,7 +19,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="#AF2BBF"
             app:title="Instructions"
             app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
             app:titleCentered="true"
@@ -35,7 +34,7 @@
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout_instructions"
             android:layout_width="match_parent"
-            android:background="#5FB0B7"
+            android:background="@color/green"
             android:layout_height="50dp" />
 
     </com.google.android.material.appbar.AppBarLayout>

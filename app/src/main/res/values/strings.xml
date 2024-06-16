@@ -6,6 +6,9 @@
     <string name="material_button_save">Save</string>
     <string name="grocery_item_name">Name of Grocery Item</string>
     <string name="not_in_fridge">Not in Fridge</string>
+    <string name="in_fridge">In Fridge</string>
+    <string name="can_make">Have Ingredients</string>
+    <string name="can_not_make">Missing Ingredients</string>
     <string name="fab_adding_recipes">Floating Action Bar For Adding Recipes</string>
     <string name="recipe_item_name">Recipe Name</string>
     <string name="dialog_add_recipe_description_hint">Add Description</string>

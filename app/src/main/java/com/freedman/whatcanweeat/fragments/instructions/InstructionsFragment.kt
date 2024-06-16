@@ -39,13 +39,13 @@ class InstructionsFragment(private val recipeInstruction: Recipe) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         createInstructionList()
         setupFAB()
-        binding.recyclerView.adapter = adapterInstructions
+        binding.recyclerViewCanMake.adapter = adapterInstructions
 
     }
 
     private fun setupFAB() {
-        binding.fab.contentDescription = "Floating Action Bar For Adding Instructions"
-        binding.fab.setOnClickListener { showAddTaskDialogue() }
+        binding.fabRecipe.contentDescription = "Floating Action Bar For Adding Instructions"
+        binding.fabRecipe.setOnClickListener { showAddTaskDialogue() }
     }
 
     private fun showAddTaskDialogue() {

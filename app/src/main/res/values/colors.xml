@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">#FDF6FE</color>
     <color name="grey">#BDBDBD</color>
     <color name="faded">#99B6B6B6</color>
     <color name="green">#ACF89B</color>
+    <color name="darkGreen">#48E17F</color>
+
+
+    <color name="purple">#AF2BBF</color>
+    <color name="background">#FFFDF6FE</color>
+    <color name="blue">#83B1EF</color>
+
 
 </resources>

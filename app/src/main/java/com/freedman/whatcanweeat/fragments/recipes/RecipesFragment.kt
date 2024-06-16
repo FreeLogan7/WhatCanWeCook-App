@@ -12,12 +12,16 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.freedman.whatcanweeat.ErrorCheck.OnAddErrorCheck
+import com.freedman.whatcanweeat.data.IngredientsDao
+import com.freedman.whatcanweeat.data.InstructionsDao
 import com.freedman.whatcanweeat.data.RecipeDao
 import com.freedman.whatcanweeat.data.WhatCanWeEatDatabase
 import com.freedman.whatcanweeat.databinding.ActivityMainBinding
 import com.freedman.whatcanweeat.databinding.RecipesAddItemBinding
 import com.freedman.whatcanweeat.databinding.RecyclerViewBinding
 import com.freedman.whatcanweeat.tableDetails.Groceries
+import com.freedman.whatcanweeat.tableDetails.Ingredients
+import com.freedman.whatcanweeat.tableDetails.Instructions
 import com.freedman.whatcanweeat.tableDetails.Recipe
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlin.concurrent.thread
@@ -32,6 +36,8 @@ class RecipesFragment(
     private val recipeDao: RecipeDao by lazy {
         WhatCanWeEatDatabase.getDatabase(requireContext()).getRecipeDao()
     }
+
+
 
     private var adapter = RecipeAdapter( this)
     private var allRecipes : List<Recipe> = listOf()
@@ -52,9 +58,14 @@ class RecipesFragment(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         createRecipeList()
-        binding.fab.setOnClickListener { showAddTaskDialogue() }
-        binding.recyclerView.layoutManager = GridLayoutManager(requireContext(),2, LinearLayoutManager.VERTICAL,false)
-        binding.recyclerView.adapter = adapter
+
+
+
+        binding.fabRecipe.setOnClickListener { showAddTaskDialogue() }
+        binding.recyclerViewCanMake.layoutManager = GridLayoutManager(requireContext(),2, LinearLayoutManager.VERTICAL,false)
+        binding.recyclerViewCanMake.adapter = adapter
+
+
 
         //CREATE 1 XML, 3 RECYCLER VIEW
         //CREATE 3 createRecipe FUNCTIONS WITH DIFFERENT COLORS
