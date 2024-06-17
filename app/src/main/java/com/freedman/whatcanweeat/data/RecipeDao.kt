@@ -78,6 +78,9 @@ interface InstructionsDao {
     @Update
     fun updateInstructions (instructions: Instructions)
 
+    @Query("DELETE FROM instructions WHERE recipe_name = :recipeName AND instruction_id = :instructionId")
+    fun deleteInstructionById(recipeName: String , instructionId: Int)
+
     @Delete
     fun deleteInstructions(instructions: Instructions)
 

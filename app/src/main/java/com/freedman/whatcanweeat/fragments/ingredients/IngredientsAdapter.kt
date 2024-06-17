@@ -41,6 +41,10 @@ class IngredientsAdapter() :
         }
     }
 
+    fun getIngredientsAtPosition(position:Int): Ingredients{
+        return ingredients[position]
+    }
+
 }
 
 

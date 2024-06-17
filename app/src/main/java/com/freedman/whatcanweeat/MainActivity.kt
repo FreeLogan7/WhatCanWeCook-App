@@ -22,8 +22,6 @@ class MainActivity : AppCompatActivity() , RecipesFragment.NewActivityListener {
 
     private val updatePreferences: SharedPreferences  by lazy {  this.getSharedPreferences("grocery-update", Context.MODE_PRIVATE)}
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)

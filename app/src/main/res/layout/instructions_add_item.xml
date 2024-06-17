@@ -7,12 +7,12 @@
 
     <EditText
         android:id="@+id/edit_text_dialogue_recipe_instruction"
+        android:inputType="textMultiLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:hint="@string/add_instruction"
         android:importantForAutofill="no"
-        android:inputType="text"
         android:textSize="14sp"
         app:layout_constraintTop_toTopOf="parent" />
 

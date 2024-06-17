@@ -180,6 +180,7 @@ class GroceriesFragment(private val titleChanger: ActivityMainBinding) : Fragmen
             )
 
             dialog.dismiss()
+            updateGroceriesAfterPageSwap()
             getInFridgeGroceries()
         }
         dialog.show()
@@ -235,7 +236,6 @@ class GroceriesFragment(private val titleChanger: ActivityMainBinding) : Fragmen
         thread {
             groceryDao.updateGrocery(grocery)
             getAllGroceries()
-
         }
     }
 

@@ -30,16 +30,20 @@ class InstructionsAdapter() :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(instructions[position])
+        holder.bind(instructions[position], position+1)
     }
 
     inner class ViewHolder(private val binding: ItemInstructionsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(instructions: Instructions) {
+        fun bind(instructions: Instructions, position: Int) {
             binding.textViewDescription.text = instructions.instructions
-            binding.stepNumber.text = instructions.id.toString()
+            binding.stepNumber.text = position.toString()
         }
+    }
+
+    fun getInstructionAtPosition(position: Int): Instructions{
+        return instructions[position]
     }
 }
 

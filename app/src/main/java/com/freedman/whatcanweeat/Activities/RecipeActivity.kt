@@ -22,6 +22,7 @@ class RecipeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRecipeBinding
     private val recipeInstruction: Recipe by lazy { intent.getSerializableExtra("recipe-instruction") as Recipe }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRecipeBinding.inflate(layoutInflater)
