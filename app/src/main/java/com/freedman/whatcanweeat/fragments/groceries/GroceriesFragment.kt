@@ -169,7 +169,7 @@ class GroceriesFragment(private val titleChanger: ActivityMainBinding) : Fragmen
             //add it to the grocery line -> if statement and changes made to adapter
             val grocery = Groceries(groceryName = groceryInputName, inFridge = true)
 
-            allGroceries = inFridgeGroceries +notInFridgeGroceries
+            allGroceries = inFridgeGroceries + notInFridgeGroceries
             onAddGroceryName(
                 groceryDao = groceryDao,
                 activity = requireActivity(),

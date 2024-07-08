@@ -48,7 +48,7 @@
                 app:layout_constraintTop_toBottomOf="@id/recycler_view_can_make" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_recipes_can_not_make"
+                android:id="@+id/recycler_view_can_not_make"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

@@ -49,6 +49,7 @@ class InstructionsFragment(private val recipeInstruction: Recipe) : Fragment() {
 
         binding.recyclerViewCanMake.adapter = adapterInstructions
 
+
         setupSwipeToDelete(binding.recyclerViewCanMake, adapterInstructions)
 
     }

@@ -1,11 +1,13 @@
 package com.freedman.whatcanweeat.fragments.recipes
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -30,13 +32,12 @@ class RecipesFragment(
     private val recipeDao: RecipeDao by lazy {
         WhatCanWeEatDatabase.getDatabase(requireContext()).getRecipeDao()
     }
-
-
-
-    private var adapter = RecipeAdapter( this)
+    private var adapterCanMake = RecipeAdapter( this)
+    private var adapterCanNotMake = RecipeAdapter( this)
     private var allRecipes : List<Recipe> = listOf()
-
-
+    private var recipesInFridge : List<Recipe> = listOf()
+    private var recipesNotInFridge : List<Recipe> = listOf()
+    private var showNotInFridge : Int = 1
 
 
     override fun onCreateView(
@@ -57,14 +58,30 @@ class RecipesFragment(
 
         binding.fabRecipe.setOnClickListener { showAddTaskDialogue() }
         binding.recyclerViewCanMake.layoutManager = GridLayoutManager(requireContext(),2, LinearLayoutManager.VERTICAL,false)
-        binding.recyclerViewCanMake.adapter = adapter
+        binding.recyclerViewCanMake.adapter = adapterCanMake
 
+        binding.recyclerViewCanNotMake.layoutManager = GridLayoutManager(requireContext(),2, LinearLayoutManager.VERTICAL,false)
+        binding.recyclerViewCanNotMake.adapter = adapterCanNotMake
+        binding.sectionLabelCanNotMake.visibility = View.VISIBLE
 
+        setNotInFridgeClicker()
 
-        //CREATE 1 XML, 3 RECYCLER VIEW
-        //CREATE 3 createRecipe FUNCTIONS WITH DIFFERENT COLORS
-        //CHANGE ADAPTER TO INCLUDE COLOR
+    }
 
+    private fun setNotInFridgeClicker() {
+        binding.sectionLabelCanNotMake.setOnClickListener{
+            when (showNotInFridge) {
+                1 -> {
+                    showNotInFridge = 0
+                    binding.recyclerViewCanNotMake.visibility = View.GONE
+                }
+
+                0 -> {
+                    showNotInFridge = 1
+                    binding.recyclerViewCanNotMake.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
     override fun onResume() {
@@ -111,7 +128,7 @@ class RecipesFragment(
             val recipeInputDescription = bindingRecipeDialogue.editTextDialogueRecipeDescription.text.toString()
 
             val recipe = Recipe(recipeName = recipeInputName, description = recipeInputDescription, favourite = favourite)
-
+            allRecipes = recipesInFridge + recipesNotInFridge
             onAddRecipeName(recipeDao = recipeDao,
                 activity = requireActivity(),
                 allRecipes = allRecipes,
@@ -125,18 +142,31 @@ class RecipesFragment(
         dialog.show()
     }
 
-    fun createRecipeList(){
+    private fun createRecipeList(){
         createRecipeListInFridge()
-        //createRecipeListNotInFridge()
     }
 
-    fun createRecipeListInFridge(){
+    private fun createRecipeListInFridge(){
         thread {
             val recipeNamesInFridge = recipeDao.getInFridgeRecipeNames()
             val recipesInFridge = recipeDao.getInFridgeRecipes(recipeNamesInFridge)
             requireActivity().runOnUiThread {
-                this.allRecipes = recipesInFridge
-                adapter.setRecipes(recipesInFridge, GREEN_COLOR)
+                this.recipesInFridge = recipesInFridge
+                adapterCanMake.setRecipes(recipesInFridge, GREEN_COLOR)
+                when (showNotInFridge){
+                    1 -> createRecipeListNotInFridge(recipeNamesInFridge)
+                    0 -> {}
+                }
+            }
+        }
+    }
+
+    private fun createRecipeListNotInFridge(recipeNamesInFridge: List<String>) {
+        thread {
+            val recipesNotInFridge = recipeDao.getNotInFridgeRecipes(recipeNamesInFridge)
+            requireActivity().runOnUiThread {
+                this.recipesNotInFridge = recipesNotInFridge
+                adapterCanNotMake.setRecipes(recipesNotInFridge, FADED_COLOR)
             }
         }
     }
@@ -147,14 +177,31 @@ class RecipesFragment(
         listener.newActivity(recipe)
     }
 
+    override fun deleteRecipe(recipe: Recipe) {
+        val dialogClickListener =
+            DialogInterface.OnClickListener { dialog, which ->
+                when (which) {
+                    DialogInterface.BUTTON_POSITIVE -> {thread {
+                        recipeDao.deleteRecipe(recipe) }
+                        createRecipeList()
+                    }
+                    DialogInterface.BUTTON_NEGATIVE -> {}
+                }
+            }
+        val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+        builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+            .setNegativeButton("No", dialogClickListener).show()
+
+
+    }
+
     interface NewActivityListener {
         fun newActivity(recipe: Recipe)
     }
 
     companion object{
         const val GREEN_COLOR = 0xFFACF89B.toInt()
-        const val WHITE_COLOR = 0xFFFFFFFF.toInt()
-        const val FADED_COLOR = 0x99B6B6B6.toInt()
+        const val FADED_COLOR = 0xFFB6B6B6.toInt()
     }
 
 

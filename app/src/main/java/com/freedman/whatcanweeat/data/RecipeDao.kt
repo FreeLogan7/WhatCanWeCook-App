@@ -38,6 +38,9 @@ having SUM(CASE WHEN groceries.grocery_name is null OR groceries.inFridge is 0 T
 
     @Query("SELECT * FROM recipe WHERE recipe.recipe_name IN (:recipeNames)")
     fun getInFridgeRecipes(recipeNames: List<String>): List<Recipe>
+
+    @Query("SELECT * FROM recipe WHERE recipe.recipe_name NOT IN (:recipeNames)")
+    fun getNotInFridgeRecipes(recipeNames: List<String>): List<Recipe>
 }
 
 
@@ -53,6 +56,9 @@ interface GroceryDao {
 
     @Query("SELECT * FROM groceries WHERE inFridge = 1")
     fun getInFridgeGroceries(): List<Groceries>
+
+    @Query("SELECT grocery_name FROM groceries WHERE inFridge = 1")
+    fun getInFridgeGroceriesNames(): List<String>
 
     @Query("SELECT * FROM groceries WHERE inFridge = 0")
     fun getNotInFridgeGroceries(): List<Groceries>
@@ -100,6 +106,16 @@ interface IngredientsDao {
 
     @Query("SELECT * FROM recipe_ingredients WHERE recipe_name = :recipeName")
     fun getIngredientsForRecipe(recipeName: String): List<Ingredients>
+
+    @Query("SELECT ingredient FROM recipe_ingredients WHERE recipe_name = :recipeName ")
+    fun getInFridgeIngredientNames(recipeName: String): List<String>
+
+    @Query("SELECT * FROM recipe_ingredients WHERE recipe_ingredients.recipe_name =:recipeName AND ingredient  IN (:groceriesInFridge)")
+    fun getInFridgeIngredients(recipeName: String, groceriesInFridge : List<String> ): List<Ingredients>
+
+    @Query("SELECT * FROM recipe_ingredients WHERE recipe_ingredients.recipe_name =:recipeName AND ingredient  NOT IN (:groceriesInFridge)")
+    fun getNotInFridgeIngredients(recipeName: String, groceriesInFridge : List<String> ): List<Ingredients>
+
 
     @Update
     fun updateIngredients (ingredients: Ingredients)

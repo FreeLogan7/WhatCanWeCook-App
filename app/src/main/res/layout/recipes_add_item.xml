@@ -24,7 +24,7 @@
         android:layout_marginTop="8dp"
         android:hint="@string/dialog_add_recipe_description_hint"
         android:importantForAutofill="no"
-        android:inputType="text"
+        android:inputType="textMultiLine"
         android:textSize="14sp"
         android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@id/edit_text_dialogue_recipe_name"

@@ -15,11 +15,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.freedman.whatcanweeat.R
+import com.freedman.whatcanweeat.data.GroceryDao
 import com.freedman.whatcanweeat.data.IngredientsDao
 import com.freedman.whatcanweeat.data.WhatCanWeEatDatabase
 import com.freedman.whatcanweeat.databinding.IngredientsAddItemBinding
 import com.freedman.whatcanweeat.databinding.RecyclerViewBinding
 import com.freedman.whatcanweeat.fragments.instructions.InstructionsAdapter
+import com.freedman.whatcanweeat.fragments.recipes.RecipesFragment.Companion.FADED_COLOR
+import com.freedman.whatcanweeat.fragments.recipes.RecipesFragment.Companion.GREEN_COLOR
 import com.freedman.whatcanweeat.tableDetails.Ingredients
 import com.freedman.whatcanweeat.tableDetails.Recipe
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -33,7 +36,13 @@ class IngredientsFragment(private val recipeInstruction: Recipe) : Fragment() {
             requireContext()
         ).getIngredientsDao()
     }
+    private val groceryDao: GroceryDao by lazy {
+        WhatCanWeEatDatabase.getDatabase(
+            requireContext()
+        ).getGroceryDao()
+    }
     private var adapterIngredients = IngredientsAdapter() //this
+    private var adapterDoNotHaveIngredients = IngredientsAdapter()
 
 
     override fun onCreateView(
@@ -51,6 +60,7 @@ class IngredientsFragment(private val recipeInstruction: Recipe) : Fragment() {
         createIngredientList()
         setupFragment()
         binding.recyclerViewCanMake.adapter = adapterIngredients
+        binding.recyclerViewCanNotMake.adapter = adapterDoNotHaveIngredients
         setupSwipeToDelete( binding.recyclerViewCanMake,adapterIngredients)
 
     }
@@ -97,14 +107,40 @@ class IngredientsFragment(private val recipeInstruction: Recipe) : Fragment() {
         dialog.show()
     }
 
-    fun createIngredientList() {
+    private fun createIngredientList(){
+        createIngredientListInFridge()
+        createIngredientListNotInFridge()
+    }
+//only need to re-check ingredientsList verse Grocery List when Grocery List has been updated
+    //but we will do the check everytime for now
+private fun createIngredientListInFridge() {
         thread {
-            val ingredients = ingredientsDao.getIngredientsForRecipe(recipeInstruction.recipeName)
-            requireActivity().runOnUiThread {
-                adapterIngredients.setIngredients(ingredients)
+            //val ingredients = ingredientsDao.getInFridgeIngredientNames(recipeInstruction.recipeName)
+            val groceriesInFridge = groceryDao.getInFridgeGroceriesNames()
+            val ingredientsInFridge = ingredientsDao.getInFridgeIngredients(recipeInstruction.recipeName,  groceriesInFridge)
+            if(ingredientsInFridge.isNotEmpty()){
+                requireActivity().runOnUiThread {
+                    adapterIngredients.setIngredients(ingredientsInFridge, GREEN_COLOR) //add color
+            }
             }
         }
     }
+
+    private fun createIngredientListNotInFridge() {
+        thread {
+            //val ingredientsNot = ingredientsDao.getInFridgeIngredientNames(recipeInstruction.recipeName)
+            val groceriesInFridge = groceryDao.getInFridgeGroceriesNames()
+            val ingredientsNotInFridge = ingredientsDao.getNotInFridgeIngredients(recipeInstruction.recipeName, groceriesInFridge)
+            if (ingredientsNotInFridge.isNotEmpty()){
+                requireActivity().runOnUiThread {
+                    adapterDoNotHaveIngredients.setIngredients(ingredientsNotInFridge, FADED_COLOR) //add color
+                }
+            }
+
+        }
+    }
+
+
 
     private fun setupSwipeToDelete(recyclerView: RecyclerView, adapter: IngredientsAdapter) {
         val itemTouchHelperCallback =
@@ -206,3 +242,11 @@ class IngredientsFragment(private val recipeInstruction: Recipe) : Fragment() {
 }
 
 
+//fun createIngredientListInFridge() {
+//    thread {
+//        val ingredients = ingredientsDao.getIngredientsForRecipe(recipeInstruction.recipeName)
+//        requireActivity().runOnUiThread {
+//            adapterIngredients.setIngredients(ingredients)
+//        }
+//    }
+//}

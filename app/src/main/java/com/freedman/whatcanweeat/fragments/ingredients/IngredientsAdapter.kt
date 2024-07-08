@@ -12,6 +12,7 @@ class IngredientsAdapter() :
     RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() { //private val listener: SendMeToInstructionsListener
 
     private var ingredients: List<Ingredients> = listOf()
+    private var color: Int = 0
 
     override fun getItemCount() = ingredients.size
 
@@ -22,9 +23,10 @@ class IngredientsAdapter() :
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setIngredients(ingredients: List<Ingredients>) {
+    fun setIngredients(ingredients: List<Ingredients>, color: Int) {
         val sortedIngredients = ingredients.sortedBy {it.ingredient}
         this.ingredients = sortedIngredients
+        this.color = color
         notifyDataSetChanged()
     }
 
@@ -36,6 +38,7 @@ class IngredientsAdapter() :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(ingredients: Ingredients) {
+            binding.cardViewItemIngredients.setCardBackgroundColor(color)
             binding.textViewTitleIngredients.text = ingredients.ingredient
             //Later add amount of ingredient
         }

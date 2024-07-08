@@ -33,7 +33,7 @@ class RecipeAdapter(  private val listener: SendMeToRecipeListener) :
     fun setRecipes (recipe: List<Recipe>, color: Int){
         this.recipes = recipe
         this.color = color
-        notifyDataSetChanged()
+       notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -47,6 +47,8 @@ class RecipeAdapter(  private val listener: SendMeToRecipeListener) :
             binding.cardViewItem.setCardBackgroundColor(color)
             binding.textViewTitle.text = recipe.recipeName
             binding.textViewDescription.text = recipe.description
+            binding.cardViewItem.setOnLongClickListener() { listener.deleteRecipe(recipe)
+                return@setOnLongClickListener true }
 
             binding.cardViewItem.setOnClickListener(){listener.recipeSendOff(recipe)}
                 //add image or add if it is a favourite here by adding a isChecked
@@ -60,6 +62,7 @@ class RecipeAdapter(  private val listener: SendMeToRecipeListener) :
 
     interface SendMeToRecipeListener {
         fun recipeSendOff(recipe: Recipe)
+        fun deleteRecipe(recipe: Recipe)
     }
 
 }
