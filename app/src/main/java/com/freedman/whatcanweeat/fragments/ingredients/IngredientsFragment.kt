@@ -62,7 +62,6 @@ class IngredientsFragment(private val recipeInstruction: Recipe) : Fragment() {
         binding.recyclerViewCanMake.adapter = adapterIngredients
         binding.recyclerViewCanNotMake.adapter = adapterDoNotHaveIngredients
         setupSwipeToDelete( binding.recyclerViewCanMake,adapterIngredients)
-
     }
 
     private fun setupFragment() {
@@ -115,7 +114,6 @@ class IngredientsFragment(private val recipeInstruction: Recipe) : Fragment() {
     //but we will do the check everytime for now
 private fun createIngredientListInFridge() {
         thread {
-            //val ingredients = ingredientsDao.getInFridgeIngredientNames(recipeInstruction.recipeName)
             val groceriesInFridge = groceryDao.getInFridgeGroceriesNames()
             val ingredientsInFridge = ingredientsDao.getInFridgeIngredients(recipeInstruction.recipeName,  groceriesInFridge)
             if(ingredientsInFridge.isNotEmpty()){
@@ -128,7 +126,6 @@ private fun createIngredientListInFridge() {
 
     private fun createIngredientListNotInFridge() {
         thread {
-            //val ingredientsNot = ingredientsDao.getInFridgeIngredientNames(recipeInstruction.recipeName)
             val groceriesInFridge = groceryDao.getInFridgeGroceriesNames()
             val ingredientsNotInFridge = ingredientsDao.getNotInFridgeIngredients(recipeInstruction.recipeName, groceriesInFridge)
             if (ingredientsNotInFridge.isNotEmpty()){
@@ -139,8 +136,6 @@ private fun createIngredientListInFridge() {
 
         }
     }
-
-
 
     private fun setupSwipeToDelete(recyclerView: RecyclerView, adapter: IngredientsAdapter) {
         val itemTouchHelperCallback =
