@@ -25,6 +25,7 @@ import com.freedman.whatcanweeat.databinding.RecyclerViewGroceriesBinding
 import com.freedman.whatcanweeat.fragments.recipes.RecipesFragment.Companion.FADED_COLOR
 import com.freedman.whatcanweeat.fragments.recipes.RecipesFragment.Companion.GREEN_COLOR
 import com.freedman.whatcanweeat.tableDetails.Groceries
+import com.freedman.whatcanweeat.tableDetails.Ingredients
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlin.concurrent.thread
 
@@ -189,6 +190,7 @@ class GroceriesFragment(private val titleChanger: ActivityMainBinding) : Fragmen
     override fun onResume() {
         super.onResume()
         titleChanger.toolbar.title = "Groceries"
+
     }
 
     fun getAllGroceries() {
@@ -248,4 +250,18 @@ class GroceriesFragment(private val titleChanger: ActivityMainBinding) : Fragmen
     }
 
 }
+
+
+//groceryDao.createGrocery(Groceries(groceryName = "Basmati rice", inFridge = true))
+//groceryDao.createGrocery(Groceries(groceryName = "Squash ravioli", inFridge = true))
+//groceryDao.createGrocery(Groceries(groceryName = "Mushroom", inFridge = true))
+//groceryDao.createGrocery(Groceries(groceryName = "Baby spinach", inFridge = true))
+//groceryDao.createGrocery(Groceries(groceryName = "Shredded parmesan cheese", inFridge = true))
+//groceryDao.createGrocery(Groceries(groceryName = "Vegetable broth concentrate", inFridge = true))
+//groceryDao.createGrocery(Groceries(groceryName = "All purpose flour", inFridge = true))
+//groceryDao.createGrocery(Groceries(groceryName = "Cream", inFridge = true))
+//groceryDao.createGrocery(Groceries(groceryName = "White cooking wine", inFridge = true))
+//groceryDao.createGrocery(Groceries(groceryName = "Unsalted butter", inFridge = true))
+//groceryDao.createGrocery(Groceries(groceryName = "Salt", inFridge = true))
+//groceryDao.createGrocery(Groceries(groceryName = "Pepper", inFridge = true))
 

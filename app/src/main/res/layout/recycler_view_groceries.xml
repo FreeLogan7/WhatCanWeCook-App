@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="36dp"
         android:contentDescription="@string/adding_groceries_string"
-        android:src="@drawable/ic_launcher_background"
+        android:src="@drawable/fab_foreground"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
