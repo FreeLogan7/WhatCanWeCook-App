@@ -46,12 +46,13 @@ class InstructionsFragment(private val recipeInstruction: Recipe) : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         createInstructionList()
         setupFragment()
-
         binding.recyclerViewCanMake.adapter = adapterInstructions
-
-
         setupSwipeToDelete(binding.recyclerViewCanMake, adapterInstructions)
 
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
 

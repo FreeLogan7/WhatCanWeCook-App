@@ -52,6 +52,7 @@ class IngredientsFragment(private val recipeInstruction: Recipe) : Fragment() {
     ): View {
         binding = RecyclerViewBinding.inflate(layoutInflater)
         return binding.root
+
     }
 
 
@@ -62,6 +63,10 @@ class IngredientsFragment(private val recipeInstruction: Recipe) : Fragment() {
         binding.recyclerViewCanMake.adapter = adapterIngredients
         binding.recyclerViewCanNotMake.adapter = adapterDoNotHaveIngredients
         setupSwipeToDelete( binding.recyclerViewCanMake,adapterIngredients)
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     private fun setupFragment() {
@@ -124,7 +129,7 @@ private fun createIngredientListInFridge() {
         }
     }
 
-    private fun createIngredientListNotInFridge() {
+    private fun createIngredientListNotInFridge()  {
         thread {
             val groceriesInFridge = groceryDao.getInFridgeGroceriesNames()
             val ingredientsNotInFridge = ingredientsDao.getNotInFridgeIngredients(recipeInstruction.recipeName, groceriesInFridge)
@@ -133,7 +138,6 @@ private fun createIngredientListInFridge() {
                     adapterDoNotHaveIngredients.setIngredients(ingredientsNotInFridge, FADED_COLOR) //add color
                 }
             }
-
         }
     }
 
