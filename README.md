@@ -11,13 +11,6 @@ It is still being updated and will feature many more functionalities in the futu
 - Check/Uncheck Groceries
 - 2 Recipes pre-programmed in
 
-## Future Updates
-- Uploading Instructional Video's for Follow Alongs
-- Uploading Images for Ingredients or Prep
-- Color when missing 1-3 items
-- More Features
-- Design Improvements
-
  ## Snapshots
  While the app needs a re-design, the functionality is very easy. Adding, Editing, Deleting are all possible to help you start organizing your recipes today!
 
@@ -42,5 +35,12 @@ It is still being updated and will feature many more functionalities in the futu
 
 <img src="./screenshots/Screenshot_Phone_6.png" style="width: 150px"/>
 
+
+## Future Updates
+- Uploading Instructional Video's for Follow Alongs
+- Uploading Images for Ingredients or Prep
+- Color when missing 1-3 items
+- More Features
+- Design Improvements
 
 
