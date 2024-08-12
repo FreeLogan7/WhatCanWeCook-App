@@ -1,4 +1,4 @@
-# What Can We Eat
+# What Can We Cook
 What Can We Cook is designed to help organize a growing recipe list and let you know what you can cook based on the ingredients you have at home!
 
 <img src="./screenshots/whatcanwecookpicture.png" style="width: 200px"/>
